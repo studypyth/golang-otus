@@ -1,4 +1,4 @@
-package hw02_unpack_string
+package hw02
 
 import (
 	"errors"
@@ -10,31 +10,31 @@ import (
 var ErrInvalidString = errors.New("invalid string")
 
 func Unpack(sourceString string) (string, error) {
-	var result strings.Builder
+	var builder strings.Builder
 	var previousRune rune
+	var err error
 	for index, currentRune := range sourceString {
+		if (unicode.IsDigit(currentRune) && unicode.IsDigit(previousRune)) || (unicode.IsDigit(currentRune) && index == 0) {
+			err = ErrInvalidString
+		}
 		if unicode.IsDigit(currentRune) {
-			if unicode.IsDigit(previousRune) || index == 0 {
-				return "", ErrInvalidString
-			} else {
-				multiplier, _ := strconv.Atoi(string(currentRune))
-				multipleRune := strings.Repeat(string(previousRune), multiplier)
-				result.WriteString(multipleRune)
-				previousRune = currentRune
-			}
+			multiplier, _ := strconv.Atoi(string(currentRune))
+			multipleRune := strings.Repeat(string(previousRune), multiplier)
+			builder.WriteString(multipleRune)
+			previousRune = currentRune
 		} else {
 			if !unicode.IsDigit(previousRune) {
-				result.WriteRune(previousRune)
+				builder.WriteRune(previousRune)
 			}
 			if index+1 == len(sourceString) {
-				result.WriteRune(currentRune)
+				builder.WriteRune(currentRune)
 			}
 			previousRune = currentRune
 		}
 	}
-	if len(result.String()) > 0 {
-		return result.String()[1:], nil
-	} else {
-		return result.String(), nil
+	result := builder.String()
+	if len(builder.String()) > 0 {
+		result = result[1:]
 	}
+	return result, err
 }
