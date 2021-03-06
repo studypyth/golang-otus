@@ -22,10 +22,13 @@ func Run(tasks []Task, gortnNmb, errLimit int) error {
 	wg := sync.WaitGroup{}
 	var res error
 	for _, task := range tasks { // Выдаем задания в канал тасков для воркеров и закрываем канал - заданий больше нет
+		errCnt.mu.Lock()
 		if errCnt.cnt == errLimit {
 			res = ErrErrorsLimitExceeded
+			errCnt.mu.Unlock()
 			break
 		}
+		errCnt.mu.Unlock()
 		taskChan <- task
 		wg.Add(1)
 		guard <- struct{}{}
