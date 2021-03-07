@@ -67,15 +67,6 @@ func TestCopy(t *testing.T) {
 			want:     nil,
 			err:      errors.New("any error"),
 		},
-		{
-			desc:     "Test copy non regular",
-			fromFile: "/dev/urandom",
-			toFile:   "out_file_err",
-			limit:    0,
-			offset:   0,
-			want:     nil,
-			err:      errors.New("any error"),
-		},
 	}
 
 	err := fileCreate(inTest, dataTest)
