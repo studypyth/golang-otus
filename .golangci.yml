@@ -29,7 +29,6 @@ linters:
     - golint
     - gomodguard
     - goprintffuncname
-    - gosec
     - gosimple
     - govet
     - ineffassign
