@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -28,13 +27,14 @@ func ReadDir(dir string) (Environment, error) {
 		}
 	}
 	for _, file := range files {
-		b, err := ioutil.ReadFile(dir + "\\" + file.Name())
+		b, err := ioutil.ReadFile(dir + "/" + file.Name())
 		if err != nil {
 			panic(err)
 		}
 
-		value := strings.Split(string(b), "\r\n")
+		value := strings.Split(string(b), "\n")
 		line := value[0]
+		line = strings.TrimSpace(line)
 
 		if strings.ContainsRune(file.Name(), '=') {
 			continue
@@ -42,12 +42,9 @@ func ReadDir(dir string) (Environment, error) {
 
 		switch {
 		case file.Size() == 0:
-			env[file.Name()] = EnvValue{Value: "", NeedRemove: true}
+			env[file.Name()] = EnvValue{NeedRemove: true}
 		default:
-			fmt.Println(line)
-			fmt.Println(file.Name())
 			env[file.Name()] = EnvValue{Value: line, NeedRemove: false}
-			fmt.Printf("%v", env)
 
 		}
 	}
