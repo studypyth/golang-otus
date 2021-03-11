@@ -30,11 +30,6 @@ func TestReadDir(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	// test empty dir
-	env, err = ReadDir(testDir)
-	assert.NoError(t, err)
-	assert.Nil(t, env)
-
 	if err := os.Remove(testDir); err != nil {
 		fmt.Println(err)
 	}

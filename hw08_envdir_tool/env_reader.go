@@ -20,7 +20,9 @@ func ReadDir(dir string) (Environment, error) {
 	env := Environment{}
 	files := make([]os.FileInfo, 0)
 	items, err := ioutil.ReadDir(dir)
-
+	if err != nil {
+		return nil, err
+	}
 	for _, item := range items {
 		if !item.IsDir() {
 			files = append(files, item)
@@ -39,13 +41,11 @@ func ReadDir(dir string) (Environment, error) {
 		if strings.ContainsRune(file.Name(), '=') {
 			continue
 		}
-
 		switch {
 		case file.Size() == 0:
 			env[file.Name()] = EnvValue{NeedRemove: true}
 		default:
 			env[file.Name()] = EnvValue{Value: line, NeedRemove: false}
-
 		}
 	}
 	return env, err
