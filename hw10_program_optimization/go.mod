@@ -1,5 +1,8 @@
-module github.com/fixme_my_friend/hw10_program_optimization
+module github.com/studypyth/golang-otus/hw10_program_optimization
 
 go 1.15
 
-require github.com/stretchr/testify v1.5.1
+require (
+	github.com/mailru/easyjson v0.7.7
+	github.com/stretchr/testify v1.7.0
+)
