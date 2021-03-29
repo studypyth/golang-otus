@@ -1,0 +1,16 @@
+logger:
+# If file == true, write to file else write to os.stdout
+  file: false
+  file_path: log.log
+# Level is int from zerolog pkg zerolog@v1.21.0/log.go:114
+  level: 1
+# Time format from time pkg
+  timeformat: "Jan _2 15:04:05"
+storage:
+  type: db
+  db:
+    host: 127.0.0.1
+    port: 5432
+    db: calendar
+    user: postgres
+    pass: postgres
